@@ -1,0 +1,51 @@
+nvblox_config:
+  container_name: 'nvblox_container'
+  node_name: 'nvblox_node'
+  remappings:
+    - depth:
+        image: '/stereo/depth'
+        info: '/stereo/camera_info'
+      color:
+        image: '/color/image'
+        info: '/color/camera_info'
+  config_files:
+    - package: 'isaac_ros_perceptor_bringup'
+      path: 'params/default_nvblox_config.yaml'
+  parameters:
+    - use_lidar: false
+    - input_qos: "SENSOR_DATA"
+    - map_clearing_frame_id: "camera_link"
+    - static_mapper:
+        esdf_slice_height: 0.0
+        esdf_slice_min_height: 0.09
+        esdf_slice_max_height: 0.65
+    - dynamic_mapper:
+        esdf_slice_height: 0.0
+        esdf_slice_min_height: 0.09
+        esdf_slice_max_height: 0.65
+
+cuvslam_config:
+  container_name: 'cuvslam_container'
+  node_name: 'cuvslam_node'
+  remappings:
+    stereo_images:
+      - left:
+          image: '/left/image_rect'
+          info: '/left/camera_info'
+          optical_frame: 'oak_left_camera_optical_frame'
+        right:
+          image: '/right/image_rect'
+          info: '/right/camera_info'
+          optical_frame: 'oak_left_camera_optical_frame'
+    imu: '/imu'
+  config_files:
+    - package: 'isaac_ros_perceptor_bringup'
+      path: 'params/default_cuvslam_config.yaml'
+
+common_config:
+  map_frame: 'map'
+  odom_frame: 'odom'
+  robot_frame: 'oak-d-base-frame'
+
+extra_topics:
+  - '/tf_static'

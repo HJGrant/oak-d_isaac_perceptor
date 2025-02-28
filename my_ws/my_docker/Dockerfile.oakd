@@ -1,0 +1,16 @@
+ARG BASE_IMAGE=ubuntu:22.04
+FROM ${BASE_IMAGE}
+
+#Install extra ROS packages for Isaac Perceptor
+RUN apt-get update && \
+    apt-get install -y ros-humble-isaac-ros-visual-slam && \
+    apt-get install -y ros-humble-isaac-ros-nvblox && \
+    rosdep update && \
+    rosdep install isaac_ros_nvblox
+
+#Install depthai ros package for the OAK-D ROS driver
+RUN apt install -y ros-humble-depthai-ros
+
+RUN colcon build --packages-select my_oakd_launch
+
+RUN source install/setup.bash
