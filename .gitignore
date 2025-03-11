@@ -251,3 +251,49 @@ COLCON_IGNORE
 AMENT_IGNORE
 
 # End of https://www.toptal.com/developers/gitignore/api/python,ros2,c++,linux
+
+# Created by https://www.toptal.com/developers/gitignore/api/database,ros2
+# Edit at https://www.toptal.com/developers/gitignore?templates=database,ros2
+
+### Database ###
+*.accdb
+*.db
+*.dbf
+*.mdb
+*.pdb
+*.sqlite3
+*.db-shm
+*.db-wal
+
+### ROS2 ###
+install/
+log/
+build/
+
+# Ignore generated docs
+*.dox
+*.wikidoc
+
+# eclipse stuff
+.project
+.cproject
+
+# qcreator stuff
+CMakeLists.txt.user
+
+srv/_*.py
+*.pcd
+*.pyc
+qtcreator-*
+*.user
+
+*~
+
+# Emacs
+.#*
+
+# Colcon custom files
+COLCON_IGNORE
+AMENT_IGNORE
+
+# End of https://www.toptal.com/developers/gitignore/api/database,ros2
