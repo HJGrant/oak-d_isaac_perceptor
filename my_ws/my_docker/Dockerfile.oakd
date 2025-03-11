@@ -9,7 +9,11 @@ RUN apt-get update && \
     rosdep install isaac_ros_nvblox
 
 #Install depthai ros package for the OAK-D ROS driver
+RUN wget -qO- https://docs.luxonis.com/install_dependencies.sh | bash
+RUN python3 -m pip install depthai
 RUN apt install -y ros-humble-depthai-ros
+
+RUN apt-get upgrade
 
 RUN colcon build --packages-select my_oakd_launch
 

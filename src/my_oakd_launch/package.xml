@@ -4,8 +4,8 @@
   <name>my_oakd_launch</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
-  <maintainer email="itr@todo.todo">itr</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="hamish.grant@tum.de">itr</maintainer>
+  <license>Apache License 2.0</license>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

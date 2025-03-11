@@ -715,7 +715,7 @@ def start_recording(args: lu.ArgumentContainer, config: dict) -> List[Action]:
 
     return [record_action, lu.log_info(recording_started_msg)]
 
-def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]:
+def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]:true
     config_file = lu.get_path('isaac_ros_perceptor_bringup', args.config_file)
     with open(config_file, "r", encoding="utf-8") as file:
         config = yaml.safe_load(file)
