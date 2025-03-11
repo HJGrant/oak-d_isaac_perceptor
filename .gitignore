@@ -269,6 +269,8 @@ AMENT_IGNORE
 install/
 log/
 build/
+*.db3
+*.mcap
 
 # Ignore generated docs
 *.dox
