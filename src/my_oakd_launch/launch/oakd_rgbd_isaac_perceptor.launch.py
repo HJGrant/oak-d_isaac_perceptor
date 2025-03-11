@@ -21,12 +21,26 @@ from launch.actions import (
 )
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, LaunchConfigurationEquals, LaunchConfigurationNotEquals
-import launch_ros.actions
+from launch_ros.actions import Node
 import launch_ros.descriptions
 
 NVBLOX_CONFIG = 'nvblox_config'
 CUVSLAM_CONFIG = 'cuvslam_config'
 COMMON_CONFIG = 'common_config'
+
+def convert_bgr_to_rgb():
+    return LaunchDescription([
+        Node(
+            package='my_oakd_launch',           # Name of your package
+            executable='image_converter',       # The name of your node
+            name='image_converter_node',        # The name of the node
+            output='screen',                    # Output to the screen
+            remappings=[                       # Optional: remap topics if necessary
+                ('/oak/rgb/image_raw', '/oak/rgb/image_raw'),
+                ('/oak/rgb/image_raw_rgb8', '/oak/rgb/image_raw_rgb8')
+            ]
+        )
+    ]) 
 
 def launch_setup_oakd_rgbd(context, *args, **kwargs):
     params_file = LaunchConfiguration("params_file")
@@ -49,7 +63,7 @@ def launch_setup_oakd_rgbd(context, *args, **kwargs):
                 "cam_pitch": LaunchConfiguration("cam_pitch"),
                 "cam_yaw": LaunchConfiguration("cam_yaw"),
                 "use_rviz": LaunchConfiguration("use_rviz"),
-                "pointcloud.enable": "true",
+                "pointcloud.enable": "false",
                 "rs_compat": LaunchConfiguration("rs_compat"),
             }.items(),
         ),
@@ -190,7 +204,6 @@ def start_cuvslam(args: lu.ArgumentContainer, cuvslam_config: dict, common_confi
 
     # Add the imu topic if provided
     imu_topic = cuvslam_config.get('remappings', {}).get('imu')
-    print(f"########IMU TOPIC############={imu_topic}")
     if imu_topic is not None:
         remappings.append(('visual_slam/imu', imu_topic))
         parameters.append({'enable_imu_fusion': True})
@@ -308,6 +321,8 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
     print(f"########Actions List: {actions}#############")
     
     actions.append(generate_launch_description_oakd_rgbd())
+
+    actions.append(convert_bgr_to_rgb())
 
     return actions
 
