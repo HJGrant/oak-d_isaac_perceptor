@@ -2,5 +2,37 @@
   ros__parameters:
     camera:
       i_nn_type: none
+      i_tf_base_frame: oak-d_frame
+      i_tf_parent_frame: oak-d-base-frame
+      i_pipeline_type: RGBD
+    nn:
+      i_nn_config_path: depthai_ros_driver/mobilenet
+    pipeline_gen:
+      i_enable_diagnostics: false
+      i_enable_imu: false
+      i_enable_sync: false
+    left:
+      i_publish_topic: true
+      i_fps: 30.0
+      i_resolution: 400P
+      i_low_bandiwdth_frame_freq: 30
+      i_low_bandwidth: true
+    right:
+      i_publish_topic: true
+      i_fps: 30.0
+      i_resolution: 400P
+      i_low_bandiwdth_frame_freq: 30
+      i_low_bandwidth: true
+    rgb:
+      i_resolution: 1080P
+      i_fps: 25.0
+      i_low_bandwidth: false
+      i_output_isp: true
+      i_isp_den: 3
+      i_isp_num: 2
     stereo:
+      i_publish_topic: true
+      i_low_bandwidth: true
+      i_align_depth: true
+      i_lr_check: true
       i_subpixel: true

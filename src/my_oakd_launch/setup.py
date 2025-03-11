@@ -7,7 +7,8 @@ package_name = 'my_oakd_launch'
 setup(
     name=package_name,
     version='0.0.1',
-    packages=find_packages(exclude=['test']),
+    packages=find_packages(where='src'),  # Include src/ as package directory
+    package_dir={'': 'src'},
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
@@ -23,6 +24,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            "image_converter =my_oakd_launch.image_converter:main",  # Reference src/image_converter.py
         ],
-    }
+    },
 )

@@ -1,0 +1,22 @@
+{
+  "name": "My OAK-D Dev",
+  "image": "isaac_ros_dev-x86_64",
+  "runArgs": [
+    "--gpus", "all", 
+    "--network", "host", 
+    "--cpus", "16.0",  // Set CPU limit
+    "--memory", "32g"  // Set memory limit
+  ],
+  "postCreateCommand": "echo 'Dev container is ready!'",
+  "remoteUser": "root",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind"
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-vscode.cpptools"
+  ]
+}
