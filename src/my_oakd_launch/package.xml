@@ -3,7 +3,7 @@
 <package format="3">
   <name>my_oakd_launch</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>OAK-D Isaac Perceptor Interface</description>
   <maintainer email="hamish.grant@tum.de">itr</maintainer>
   <license>Apache License 2.0</license>
 
@@ -12,7 +12,34 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
+  <depend>rclcpp</depend>
+  <depend>rosbag2_transport</depend>
+  <depend>geometry_msgs</depend>
+  <depend>libstatistics_collector</depend>
+  <depend>nvblox_msgs</depend>
+  <depend>rclcpp_components</depend>
+  <depend>rosbag2_cpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>std_srvs</depend>
+  <depend>tf2_ros</depend>
+  <depend>tf2_eigen</depend>
+  <depend>message_filters</depend>
+  <depend>nav_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>nvblox_ros_common</depend>
+  <depend>nvblox_ros_python_utils</depend>
+  <depend>nvblox_rviz_plugin</depend>
+  <depend>isaac_ros_managed_nitros</depend>
+  <depend>isaac_ros_nitros_image_type</depend>
+  <depend>isaac_ros_nitros_camera_info_type</depend>
+  <depend>isaac_ros_gxf</depend>
+  <depend>isaac_ros_common</depend>
+  
+
   <export>
     <build_type>ament_python</build_type>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
