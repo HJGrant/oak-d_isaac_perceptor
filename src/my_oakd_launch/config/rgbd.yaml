@@ -10,30 +10,38 @@
     pipeline_gen:
       i_enable_diagnostics: true
       i_enable_imu: true
-      i_enable_sync: false
+      i_enable_sync: true
+    imu:
+      i_sync_method: LINEAR_INTERPOLATE_ACCEL
+      i_acc_freq: 400
+      i_gyro_freq: 200
     left:
       i_publish_topic: true
       i_fps: 30.0
-      i_resolution: 400P
+      i_resolution: 720P
       i_low_bandiwdth_frame_freq: 30
       i_low_bandwidth: true
+      i_synced: true
     right:
       i_publish_topic: true
       i_fps: 30.0
-      i_resolution: 400P
+      i_resolution: 720P
       i_low_bandiwdth_frame_freq: 30
       i_low_bandwidth: true
+      i_synced: true
     rgb:
       i_publish_topic: true
       i_resolution: 1080P
-      i_fps: 25.0
-      i_low_bandwidth: false
+      i_fps: 30.0
+      i_low_bandwidth: true
       i_output_isp: true
       i_isp_den: 3
       i_isp_num: 2
+      i_synced: true
     stereo:
       i_publish_topic: true
-      i_low_bandwidth: false
+      i_low_bandwidth: true
       i_align_depth: true
       i_lr_check: true
-      i_subpixel: true
+      i_subpixel: false
+      i_synced: true
