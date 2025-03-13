@@ -18,7 +18,6 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     OpaqueFunction,
-    ExecuteProcess
 )
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, LaunchConfigurationEquals, LaunchConfigurationNotEquals
@@ -184,24 +183,13 @@ def start_nvblox(args: lu.ArgumentContainer, nvblox_config: dict,
 
 def generate_static_transforms():
     return LaunchDescription([
-        ExecuteProcess(
-            cmd=[
-                'ros2', 'run', 'tf2_ros', 'static_transform_publisher',
-                '--x', '0.0', '--y', '0.0', '--z', '0.0',
-                '--roll', '0.0', '--pitch', '0.0', '--yaw', '0.0',
-                'oak-d-frame', 'map'
-            ],
-            output='screen'
-        ),
-        ExecuteProcess(
-            cmd=[
-                'ros2', 'run', 'tf2_ros', 'static_transform_publisher',
-                '--x', '0.0', '--y', '0.0', '--z', '0.0',
-                '--roll', '0.0', '--pitch', '0.0', '--yaw', '0.0',
-                'oak-d-frame', 'odom'
-            ],
-            output='screen'
-        )
+        Node(package = "tf2_ros", 
+                       executable = "static_transform_publisher",
+                       arguments = ["0", "0", "0", "0", "0", "0", "map", "odom"]),
+
+        Node(package = "tf2_ros", 
+                       executable = "static_transform_publisher",
+                       arguments = ["0", "0", "0", "0", "0", "0", "odom", "oak-d-base-frame"])
     ])
 
 def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]:
