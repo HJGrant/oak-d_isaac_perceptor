@@ -32,7 +32,7 @@ def convert_bgr_to_rgb():
     return LaunchDescription([
         Node(
             package='my_oakd_launch',           # Name of your package
-            executable='image_converter',       # The name of your node
+            executable='image_converter.py',       # The name of your node
             name='image_converter_node',        # The name of the node
             output='screen',                    # Output to the screen
             remappings=[                       # Optional: remap topics if necessary
@@ -44,13 +44,14 @@ def convert_bgr_to_rgb():
 
 def launch_setup_oakd_rgbd(context, *args, **kwargs):
     params_file = LaunchConfiguration("params_file")
-    depthai_prefix = get_package_share_directory("depthai_ros_driver")
+    my_oakd_launch_prefix = get_package_share_directory("my_oakd_launch")
+    print("##### Camera Driver Location: " + os.path.join(my_oakd_launch_prefix, "launch", "camera.launch.py") + " #######")
 
     name = LaunchConfiguration("name").perform(context)
     return [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                os.path.join(depthai_prefix, "launch", "camera.launch.py")
+                os.path.join(my_oakd_launch_prefix, "launch", "camera.launch.py")
             ),
             launch_arguments={
                 "name": name,
@@ -70,7 +71,10 @@ def launch_setup_oakd_rgbd(context, *args, **kwargs):
     ]
 
 def generate_launch_description_oakd_rgbd():
-    depthai_prefix = get_package_share_directory("depthai_ros_driver")
+    my_oakd_launch_prefix = get_package_share_directory("my_oakd_launch")
+
+    print("##### OAK-D Driver Location: " + os.path.join(my_oakd_launch_prefix, "config", "rgbd.yaml") + " #####")
+
     declared_arguments = [
         DeclareLaunchArgument("name", default_value="oak"),
         DeclareLaunchArgument("camera_model", default_value="OAK-D"),
@@ -83,7 +87,7 @@ def generate_launch_description_oakd_rgbd():
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
             "params_file",
-            default_value=os.path.join(depthai_prefix, "config", "rgbd.yaml"),
+            default_value=os.path.join(my_oakd_launch_prefix, "config", "rgbd.yaml"),
         ),
         DeclareLaunchArgument("use_rviz", default_value="False"),
         DeclareLaunchArgument("rectify_rgb", default_value="False"),
@@ -317,9 +321,7 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
             'launch/tools/visualization.launch.py',
             launch_arguments={'use_foxglove_whitelist': args.use_foxglove_whitelist},
         ))
-
-    print(f"########Actions List: {actions}#############")
-    
+  
     actions.append(generate_launch_description_oakd_rgbd())
 
     actions.append(convert_bgr_to_rgb())
@@ -327,7 +329,8 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
     return actions
 
 def generate_launch_description() -> LaunchDescription:
-    package_name = 'isaac_ros_nvblox'  # Change this to match your package name
+    #package_name = 'isaac_ros_nvblox'  # Change this to match your package name
+    package_name='my_oakd_launch'
 
     # Get the path to the config file inside the package's "config" directory
     default_config_path = os.path.join(
@@ -335,6 +338,8 @@ def generate_launch_description() -> LaunchDescription:
         'config',
         'my_rgbd_perceptor.yaml'
     )
+
+    print(f"####### Isaac Perceptor Config Path :  {default_config_path}  #########\n")
 
     # Define arguments
     args = lu.ArgumentContainer()
