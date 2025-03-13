@@ -13,13 +13,13 @@
       i_enable_sync: false
     left:
       i_publish_topic: true
-      i_fps: 90.0
+      i_fps: 30.0
       i_resolution: 400P
       i_low_bandiwdth_frame_freq: 30
       i_low_bandwidth: true
     right:
       i_publish_topic: true
-      i_fps: 90.0
+      i_fps: 30.0
       i_resolution: 400P
       i_low_bandiwdth_frame_freq: 30
       i_low_bandwidth: true
@@ -27,7 +27,7 @@
       i_publish_topic: true
       i_resolution: 1080P
       i_fps: 25.0
-      i_low_bandwidth: true
+      i_low_bandwidth: false
       i_output_isp: true
       i_isp_den: 3
       i_isp_num: 2
