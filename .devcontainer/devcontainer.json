@@ -4,8 +4,8 @@
   "runArgs": [
     "--gpus", "all", 
     "--network", "host", 
-    "--cpus", "16.0",  // Set CPU limit
-    "--memory", "32g"  // Set memory limit
+    "--cpus", "32.0",  // Set CPU limit
+    "--memory", "53g"  // Set memory limit
   ],
   "postCreateCommand": "echo 'Dev container is ready!'",
   "remoteUser": "root",
