@@ -2,7 +2,6 @@
   "name": "My OAK-D Dev",
   "image": "isaac_ros_dev-x86_64",
   "runArgs": [
-<<<<<<< HEAD
     "--gpus", "all",
     "--network", "host",
     "--cpus", "32.0",
@@ -12,12 +11,6 @@
     "--env", "XDG_RUNTIME_DIR=/tmp/runtime-root", 
     "-v", "/tmp/.X11-unix:/tmp/.X11-unix",  // Mount X11 socket for display
     "-v", "/etc/machine-id:/etc/machine-id"  // Necessary for some GUI applications
-=======
-    "--gpus", "all", 
-    "--network", "host", 
-    "--cpus", "32.0",  // Set CPU limit
-    "--memory", "53g"  // Set memory limit
->>>>>>> df17a38e128c3a9af1e10259ae834c3a5b112e8b
   ],
   "postCreateCommand": "echo 'Dev container is ready!'",
   "remoteUser": "root",
