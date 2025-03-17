@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,ros2,c++,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,ros2,c++,linux
 
+### TENSOR RT ###
+*.onnx
+*.plan
+
 ### C++ ###
 # Prerequisites
 *.d
