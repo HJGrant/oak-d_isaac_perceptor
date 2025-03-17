@@ -69,6 +69,17 @@ def launch_setup_oakd_rgbd(context, *args, **kwargs):
         ),
     ]
 
+def start_segmentation():
+    segmentation_launch = os.path.join(
+        get_package_share_directory('nvblox_examples_bringup'), 'launch', 'perception', 'segmentation.launch.py'
+    )
+
+    return LaunchDescription([
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(segmentation_launch)
+        ),
+    ])
+
 def generate_launch_description_oakd_rgbd():
     my_oakd_launch_prefix = get_package_share_directory("my_oakd_launch")
 
@@ -103,10 +114,13 @@ def get_nvblox_remappings(cameras: dict) -> List[Tuple[str, str]]:
     for i in range(len(cameras)):
         depth = cameras[i].get('depth')
         color = cameras[i].get('color')
+        mask = cameras[i].get('mask')
         remappings.append((f'camera_{i}/depth/image', depth.get('image')))
         remappings.append((f'camera_{i}/depth/camera_info', depth.get('info')))
         remappings.append((f'camera_{i}/color/image', color.get('image')))
         remappings.append((f'camera_{i}/color/camera_info', color.get('info')))
+        remappings.append((f'camera_{i}/mask/image', mask.get('image')))
+        remappings.append((f'camera_{i}/mask/camera_info', mask.get('info')))
     return remappings
 
 def get_nvblox_params(num_cameras: int, nvblox_config: dict, common_config: dict) -> List[Any]:
@@ -130,7 +144,7 @@ def get_nvblox_params(num_cameras: int, nvblox_config: dict, common_config: dict
 
     parameters.append(
         lu.get_path('nvblox_examples_bringup',
-                    'config/nvblox/specializations/nvblox_dynamics.yaml'))
+                    'config/nvblox/specializations/nvblox_segmentation.yaml'))
 
     return parameters
 
@@ -218,6 +232,8 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
 
     actions.append(convert_bgr_to_rgb())
 
+    actions.append(start_segmentation())
+
     actions.append(generate_static_transforms())
 
     return actions
@@ -230,7 +246,7 @@ def generate_launch_description() -> LaunchDescription:
     default_config_path = os.path.join(
         get_package_share_directory(package_name),
         'config',
-        'my_rgbd_perceptor.yaml'
+        'nvblox_segmentation.yaml'
     )
 
     print(f"####### Isaac Perceptor Config Path :  {default_config_path}  #########\n")

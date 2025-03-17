@@ -233,7 +233,7 @@ def generate_launch_description() -> LaunchDescription:
     default_config_path = os.path.join(
         get_package_share_directory(package_name),
         'config',
-        'nvblox_dynamics.yaml'
+        'nvblox_dynamics_1.yaml'
     )
 
     print(f"####### Isaac Perceptor Config Path :  {default_config_path}  #########")
