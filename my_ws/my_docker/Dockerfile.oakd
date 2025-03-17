@@ -7,6 +7,14 @@ RUN apt-get update && \
     apt-get install -y ros-humble-isaac-ros-nvblox && \
     rosdep update && \
     rosdep install isaac_ros_nvblox
+    
+#Install Isaac ROS Segment Anything and Mobile SAM
+RUN apt-get install -y ros-humble-isaac-ros-segment-anything && \
+    pip install timm && \
+    pip install git+https://github.com/ChaoningZhang/MobileSAM.git && \
+    apt-get update && \
+    apt-get install -y ros-humble-isaac-ros-examples
+    
 
 #Install depthai ros package for the OAK-D ROS driver
 RUN wget -qO- https://docs.luxonis.com/install_dependencies.sh | bash
@@ -16,5 +24,7 @@ RUN apt install -y ros-humble-depthai-ros
 RUN apt-get upgrade -y
 
 RUN colcon build --packages-select my_oakd_launch
+
+RUN export ISAAC_ROS_WS=/workspaces/isaac_ros_dev
 
 RUN source install/setup.bash
