@@ -26,7 +26,7 @@ cd ~/workspaces/oakd_isaac_ros/ && colcon build --symlink-install
 ```
 
 ## Step 4
-Open the ` ~/worksapces/oakd_isaac_ros/` in VSCode with the Dev Container plugin installed, or run the following script to launch the Docker container:
+Run the following script to build and launch the Docker container:
 
 ```bash
 ~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/run_dev.sh
