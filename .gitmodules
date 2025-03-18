@@ -1,0 +1,18 @@
+[submodule "src/isaac_ros_image_segmentation"]
+	path = src/isaac_ros_image_segmentation
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_segmentation.git
+[submodule "src/isaac_ros_common"]
+	path = src/isaac_ros_common
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
+[submodule "src/isaac_perceptor"]
+	path = src/isaac_perceptor
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_perceptor.git
+[submodule "src/isaac_ros_nvblox"]
+	path = src/isaac_ros_nvblox
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nvblox.git
+[submodule "src/isaac_ros_visual_slam"]
+	path = src/isaac_ros_visual_slam
+	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_visual_slam.git
+[submodule "src/depthai-ros"]
+	path = src/depthai-ros
+	url = https://github.com/luxonis/depthai-ros.git
