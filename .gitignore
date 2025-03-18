@@ -265,6 +265,9 @@ AMENT_IGNORE
 *.db-shm
 *.db-wal
 
+### ISAAC ROS ###
+isaac_ros_assets/
+
 ### ROS2 ###
 install/
 log/

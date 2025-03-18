@@ -178,135 +178,28 @@ def start_nvblox(args: lu.ArgumentContainer, nvblox_config: dict,
         
     return actions
 
-def start_cuvslam(args: lu.ArgumentContainer, cuvslam_config: dict, common_config: dict) -> Action:
-    parameters = []
-    remappings = []
-    stereo_images = cuvslam_config.get('remappings', {}).get('stereo_images', [])
-    assert len(stereo_images) != 0, 'You need to provide at least one input image pair'
+def generate_static_transforms():
+    return LaunchDescription([
+        Node(package = "tf2_ros", 
+                       executable = "static_transform_publisher",
+                       arguments = ["0", "0", "0", "0", "0", "0", "map", "odom"]),
 
-    optical_frames = []
-    for i in range(len(stereo_images)):
-        idx = 2 * i
-        left = stereo_images[i].get('left')
-        right = stereo_images[i].get('right')
-        assert 'image' in left, '`image` is missing in the left field'
-        assert 'info' in left, '`info` is missing in the left field'
-        assert 'optical_frame' in left, '`optical_frame` is missing in the left field'
-        assert 'image' in right, '`image` is missing in the right field'
-        assert 'info' in right, '`info` is missing in the right field'
-        assert 'optical_frame' in right, '`optical_frame` is missing in the right field'
-        remappings.append((f'visual_slam/image_{idx}', left.get('image')))
-        remappings.append((f'visual_slam/camera_info_{idx}', left.get('info')))
-        remappings.append((f'visual_slam/image_{idx + 1}', right.get('image')))
-        remappings.append((f'visual_slam/camera_info_{idx + 1}', right.get('info')))
-        optical_frames.append(left.get('optical_frame'))
-        optical_frames.append(right.get('optical_frame'))
-
-    # Add the imu topic if provided
-    imu_topic = cuvslam_config.get('remappings', {}).get('imu')
-    if imu_topic is not None:
-        remappings.append(('visual_slam/imu', imu_topic))
-        parameters.append({'enable_imu_fusion': True})
-
-    parameters.append({'num_cameras': 2 * len(stereo_images)})
-    parameters.append({'min_num_images': 2 * len(stereo_images)})
-    parameters.append({'camera_optical_frames': optical_frames})
-    for config_file in cuvslam_config.get('config_files', []):
-        assert 'path' in config_file, 'No `path` provided in config_files'
-        parameters.append(lu.get_path(config_file.get('package', 'isaac_ros_perceptor_bringup'),
-                                      config_file.get('path')))
-    parameters.extend(cuvslam_config.get('parameters', []))
-    if 'odom_frame' in common_config:
-        parameters.append({'odom_frame': common_config.get('odom_frame')})
-    if 'map_frame' in common_config:
-        parameters.append({'map_frame': common_config.get('map_frame')})
-    if 'robot_frame' in common_config:
-        parameters.append({'base_frame': common_config.get('robot_frame')})
-
-    cuvslam_node = ComposableNode(
-        name=cuvslam_config.get('node_name', 'cuvslam_node'),
-        package='isaac_ros_visual_slam',
-        plugin='nvidia::isaac_ros::visual_slam::VisualSlamNode',
-        remappings=remappings,
-        parameters=parameters,
-    )
-
-    if cuvslam_config.get('attach_to_container', False):
-        cuvslam_container = LoadComposableNodes(
-            target_container=cuvslam_config.get('container_name', 'cuvslam_container'),
-            composable_node_descriptions=[
-                cuvslam_node
-            ]
-        )
-    else:
-        cuvslam_container = ComposableNodeContainer(
-            name=cuvslam_config.get('container_name', 'cuvslam_container'),
-            package='rclcpp_components',
-            namespace='',
-            executable='component_container_mt',
-            arguments=['--ros-args', '--log-level', args.log_level],
-            composable_node_descriptions=[
-                cuvslam_node,
-            ],
-        )
-    return cuvslam_container
-
-def start_recording(args: lu.ArgumentContainer, config: dict) -> List[Action]:
-    # Bag recording
-    topics = config.get('extra_topics', [])
-
-    if NVBLOX_CONFIG in config:
-        cameras = config.get(NVBLOX_CONFIG).get('remappings', [])
-        for i in range(len(cameras)):
-            depth = cameras[i].get('depth')
-            color = cameras[i].get('color')
-            topics.append(depth.get('image'))
-            topics.append(depth.get('info'))
-            topics.append(color.get('image'))
-            topics.append(color.get('info'))
-
-    if CUVSLAM_CONFIG in config:
-        remappings = config.get(CUVSLAM_CONFIG).get('remappings', {})
-        if 'imu' in remappings:
-            topics.append(remappings.get('imu'))
-        cameras = remappings.get('stereo_images', [])
-        for i in range(len(cameras)):
-            left = cameras[i].get('left')
-            right = cameras[i].get('right')
-            topics.append(left.get('image'))
-            topics.append(left.get('info'))
-            topics.append(right.get('image'))
-            topics.append(right.get('info'))
-
-    topics = list(set(topics))
-    record_action = lu.record_rosbag(topics=" ".join(topics), bag_path=args.rosbag_output)
-    recording_started_msg =\
-        '''\n\n\n
-        -----------------------------------------------------
-                    BAG RECORDING IS STARTING NOW
-
-                 (make sure the rgbd cameras are up)
-        -----------------------------------------------------
-
-        List of topics:\n - ''' + "\n - ".join(topics)
-
-    return [record_action, lu.log_info(recording_started_msg)]
+        Node(package = "tf2_ros", 
+                       executable = "static_transform_publisher",
+                       arguments = ["0", "0", "0", "0", "0", "0", "odom", "oak-d-base-frame"])
+    ])
 
 def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]:
     config_file = lu.get_path('isaac_ros_perceptor_bringup', args.config_file)
     with open(config_file, "r", encoding="utf-8") as file:
         config = yaml.safe_load(file)
     actions = []
-    if len(args.rosbag_output) > 0:
-        actions.extend(start_recording(args, config))
-    else:
-        common_config = config.get(COMMON_CONFIG, {})
-        if NVBLOX_CONFIG in config and lu.is_false(args.disable_nvblox):
-            nvblox_config = config.get(NVBLOX_CONFIG)
-            actions.extend(start_nvblox(args, nvblox_config, common_config))
 
-        if CUVSLAM_CONFIG in config and lu.is_false(args.disable_cuvslam):
-            actions.append(start_cuvslam(args, config.get(CUVSLAM_CONFIG), common_config))
+    common_config = config.get(COMMON_CONFIG, {})
+    if NVBLOX_CONFIG in config and lu.is_false(args.disable_nvblox):
+        nvblox_config = config.get(NVBLOX_CONFIG)
+        actions.extend(start_nvblox(args, nvblox_config, common_config))
+
     if 'urdf_transforms' in config:
         actions.append(
             lu.add_robot_description(robot_calibration_path=config.get('urdf_transforms')))
@@ -324,16 +217,18 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
 
     actions.append(convert_bgr_to_rgb())
 
+    actions.append(generate_static_transforms())
+
     return actions
 
 def generate_launch_description() -> LaunchDescription:
-    package_name = 'isaac_ros_nvblox'  # Change this to match your package name
+    package_name = 'my_oakd_launch'  # Change this to match your package name
 
     # Get the path to the config file inside the package's "config" directory
     default_config_path = os.path.join(
         get_package_share_directory(package_name),
         'config',
-        'my_rgbd_perceptor.yaml'
+        'nvblox_dynamics.yaml'
     )
 
     # Define arguments
