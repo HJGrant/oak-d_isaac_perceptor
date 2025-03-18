@@ -43,16 +43,16 @@ ros2 launch my_oakd_launch nvblox_dynamics.launch.py
 If you would like to deploy this pipeline as a 1-click solution, that launches a Docker containter and automatically launches the correct ROS2 launch file, run the following command OUTSIDE of the docker container: 
 
 ```bash
-    ~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/docker_deploy.sh --base_image_key "x86_64.ros2_humble.oakd" --ros_ws ~/workspaces/isaac_ros-dev --launch_package "my_oakd_launch" --launch_file "nvblox_dynamics.launch.py" -n "my_username/nvblox_dynamics_oakd" 
+~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/docker_deploy.sh --base_image_key "x86_64.ros2_humble.oakd" --ros_ws ~/workspaces/isaac_ros-dev --launch_package "my_oakd_launch" --launch_file "nvblox_dynamics.launch.py" -n "my_username/nvblox_dynamics_oakd" 
 ```
 
 For Jetson Devices run (not tested):
 
 ```bash
-        docker_deploy.sh --base_image_key "aarch64.ros2_humble.oakd" --ros_ws ~/workspaces/isaac_ros-dev --launch_package "my_oakd_launch" --launch_file "nvblox_dynamics.launch.py" -n "my_username/nvblox_dynamics_oakd_jetson_aarch64" 
+~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/docker_deploy.sh --base_image_key "aarch64.ros2_humble.oakd" --ros_ws ~/workspaces/isaac_ros-dev --launch_package "my_oakd_launch" --launch_file "nvblox_dynamics.launch.py" -n "my_username/nvblox_dynamics_oakd_jetson_aarch64" 
 ```
 Now you should see the image when you run `docker images` and you can then launch the pipeline by runnning: 
 
 ```bash
-    docker run --rm -it --gpus all --network host my_username/nvblox_dynamics_oakd 
+docker run --rm -it --gpus all --network host my_username/nvblox_dynamics_oakd 
 ```
