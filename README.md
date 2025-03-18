@@ -40,6 +40,10 @@ After the build has completed, source the ROS2 environment with ` source install
 ros2 launch my_oakd_launch nvblox_dynamics.launch.py
 ```
 
+## Step 6
+Visualize the output in Foxglove, by displaying the `/nvblox_node/color_layer` topic in a 3D Panel. 
+
+
 ## Building a Deployment Docker
 If you would like to deploy this pipeline as a 1-click solution, that launches a Docker containter and automatically launches the correct ROS2 launch file, run the following command OUTSIDE of the docker container: 
 
