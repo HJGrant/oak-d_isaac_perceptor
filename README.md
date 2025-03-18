@@ -40,7 +40,7 @@ ros2 launch my_oakd_launch nvblox_dynamics.launch.py
 ```
 
 ## Building a Deployment Docker
-If you would like to deploy this pipeline as a 1-click solution, which launches a Docker containter and automatically launches the correct launch file, run the following command OUTSIDE of the docker container: 
+If you would like to deploy this pipeline as a 1-click solution, that launches a Docker containter and automatically launches the correct ROS2 launch file, run the following command OUTSIDE of the docker container: 
 
 ```bash
     ~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/docker_deploy.sh --base_image_key "x86_64.ros2_humble.oakd" --ros_ws ~/workspaces/isaac_ros-dev --launch_package "my_oakd_launch" --launch_file "nvblox_dynamics.launch.py" -n "my_username/nvblox_dynamics_oakd" 
