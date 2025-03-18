@@ -61,3 +61,12 @@ Now you should see the image when you run `docker images` and you can then launc
 ```bash
 docker run --rm -it --gpus all --network host my_username/nvblox_dynamics_oakd 
 ```
+
+## Pulling a pre-build Deployment Docker
+You can pull a pre-build deployment docker from my Docker Hub repositoriy: 
+
+```bash
+docker pull hjgrant99/nvblox_dynamics_oakd:latest
+```
+
+Or simply run `docker run --rm -it --gpus all --network host my_username/nvblox_dynamics_oakd` to download the docker image and automatically launch it after it's downloaded. 
