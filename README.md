@@ -33,7 +33,7 @@ Open the ` ~/worksapces/oakd_isaac_ros/` in VSCode with the Dev Container plugin
 ```
 
 ## Step 5
-Inside the container, source the ROS2 environment ` source install/setup.bash` and run the following command to run the nvBLOX with the OAK-D PoE:
+Inside the container, source the ROS2 environment ` source install/setup.bash` and run the following command to run nvBlox with the OAK-D PoE:
 
 ```bash
 ros2 launch my_oakd_launch nvblox_dynamics.launch.py
