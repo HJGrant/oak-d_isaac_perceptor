@@ -26,7 +26,7 @@ If you can't see the OAK-D, follow this [troubleshooting guide.](https://docs.lu
 Clone the repo and it's submodules (DepthAI ROS Driver, Isaac ROS Packages, ...) with the following command: 
 
 ```bash
-mkdir ~/workspaces/ && cd ~/workspaces/ && \
+mkdir -p ~/workspaces/ && cd ~/workspaces/ && \
 git clone --recurse-submodules https://github.com/HJGrant/oakd_isaac_ros.git
 ```
 
