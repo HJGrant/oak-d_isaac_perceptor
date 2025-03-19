@@ -12,8 +12,8 @@ nvblox_config:
         image: '/camera0/segmentation/people_mask'
         info: '/oak/rgb/camera_info'
   config_files:
-    - package: 'isaac_ros_perceptor_bringup'
-      path: 'params/default_nvblox_config.yaml'
+    - package: 'my_oakd_launch'
+      path: 'config/nvblox/nvblox_base.yaml'
   parameters:
     - use_lidar: false
     - input_qos: "SENSOR_DATA"

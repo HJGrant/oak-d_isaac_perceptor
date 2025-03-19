@@ -44,13 +44,14 @@ def convert_bgr_to_rgb():
 
 def launch_setup_oakd_rgbd(context, *args, **kwargs):
     params_file = LaunchConfiguration("params_file")
-    depthai_prefix = get_package_share_directory("depthai_ros_driver")
+    package_prefix = get_package_share_directory("my_oakd_launch")
+    print("### OAK-D LAUNCH FILE: " + str(os.path.join(package_prefix, "launch", "tools", "camera.launch.py")) + " ###")
 
     name = LaunchConfiguration("name").perform(context)
     return [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
-                os.path.join(depthai_prefix, "launch", "camera.launch.py")
+                os.path.join(package_prefix, "launch", "tools", "camera.launch.py")
             ),
             launch_arguments={
                 "name": name,
@@ -70,7 +71,8 @@ def launch_setup_oakd_rgbd(context, *args, **kwargs):
     ]
 
 def generate_launch_description_oakd_rgbd():
-    depthai_prefix = get_package_share_directory("depthai_ros_driver")
+    package_prefix = get_package_share_directory("my_oakd_launch")
+    print("### OAK-D PARAM FILE: " + str(os.path.join(package_prefix, "config", "oak_d", "oakd_rgbd.yaml")) + " ###")
     declared_arguments = [
         DeclareLaunchArgument("name", default_value="oak"),
         DeclareLaunchArgument("camera_model", default_value="OAK-D"),
@@ -83,7 +85,7 @@ def generate_launch_description_oakd_rgbd():
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
             "params_file",
-            default_value=os.path.join(depthai_prefix, "config", "rgbd.yaml"),
+            default_value=os.path.join(package_prefix, "config", "oakd_rgbd.yaml"),
         ),
         DeclareLaunchArgument("use_rviz", default_value="False"),
         DeclareLaunchArgument("rectify_rgb", default_value="False"),
@@ -111,7 +113,8 @@ def get_nvblox_params(num_cameras: int, nvblox_config: dict, common_config: dict
     parameters = []
     for config_file in nvblox_config.get('config_files', []):
         assert 'path' in config_file, 'No `path` provided in config_files'
-        parameters.append(lu.get_path(config_file.get('package', 'isaac_ros_perceptor_bringup'),
+        print("### NVBLOX MAIN CONFIG FILE: " + str(config_file) + " ###" )
+        parameters.append(lu.get_path(config_file.get('package', 'my_oakd_launch'),
                                       config_file.get('path')))
     parameters.extend(nvblox_config.get('parameters', []))
     parameters.append({'num_cameras': num_cameras})
@@ -126,8 +129,10 @@ def get_nvblox_params(num_cameras: int, nvblox_config: dict, common_config: dict
         parameters.append({'global_frame': common_config.get('odom_frame')})
 
     parameters.append(
-        lu.get_path('nvblox_examples_bringup',
+        lu.get_path('my_oakd_launch',
                     'config/nvblox/specializations/nvblox_dynamics.yaml'))
+
+    print("### APPENDED NVBLOX PARAMS: " + str(lu.get_path('my_oakd_launch', 'config/nvblox/specializations/nvblox_dynamics.yaml')) + " ###")
 
     return parameters
 
@@ -140,6 +145,10 @@ def start_nvblox(args: lu.ArgumentContainer, nvblox_config: dict,
     assert num_cameras <= 4, 'No more than 4 input channels must be provided'
 
     parameters = get_nvblox_params(num_cameras, nvblox_config, common_config)
+
+    ## set the voxel size dynamically on launch
+    voxel_size = args.voxel_size
+    parameters.append({'voxel_size': voxel_size})
 
     remappings = get_nvblox_remappings(cameras)
 
@@ -190,7 +199,8 @@ def generate_static_transforms():
     ])
 
 def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]:
-    config_file = lu.get_path('isaac_ros_perceptor_bringup', args.config_file)
+    config_file = lu.get_path('my_oakd_launch', args.config_file)
+    print("### LAUNCH FILE CONFIG :" + str(config_file))
     with open(config_file, "r", encoding="utf-8") as file:
         config = yaml.safe_load(file)
     actions = []
@@ -200,18 +210,12 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
         nvblox_config = config.get(NVBLOX_CONFIG)
         actions.extend(start_nvblox(args, nvblox_config, common_config))
 
-    if 'urdf_transforms' in config:
-        actions.append(
-            lu.add_robot_description(robot_calibration_path=config.get('urdf_transforms')))
-
     actions.append(
         lu.include(
-            'isaac_ros_perceptor_bringup',
+            'my_oakd_launch',
             'launch/tools/visualization.launch.py',
             launch_arguments={'use_foxglove_whitelist': args.use_foxglove_whitelist},
         ))
-
-    print(f"########Actions List: {actions}#############")
     
     actions.append(generate_launch_description_oakd_rgbd())
 
@@ -233,14 +237,14 @@ def generate_launch_description() -> LaunchDescription:
 
     # Define arguments
     args = lu.ArgumentContainer()
-    args.add_arg('rosbag_output', '', description='Path to the output', cli=True)
     args.add_arg('disable_nvblox', False, description='Disable nvblox', cli=True)
-    args.add_arg('disable_cuvslam', False, description='Disable cuvslam', cli=True)
     args.add_arg('log_level', 'info', choices=['debug', 'info', 'warn'], cli=True)
     
     # Use the dynamically found config path instead of hardcoding it
     args.add_arg('config_file', default_config_path,
                  description='Path to the config file', cli=True)
+
+    args.add_arg('voxel_size', 0.05, description='Set nvBlox Voxel Size', cli=True)
 
     args.add_arg('use_foxglove_whitelist', False, cli=True)
 
