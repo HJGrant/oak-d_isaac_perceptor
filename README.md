@@ -7,9 +7,9 @@ This is a package for interfacing the OAK-D PoE with the NVIDIA Isaac ROS packag
  - For Jetson: Jetpack 6.1 or 6.2
  - ROS2 Humble
  - DepthAI
+ - Foxglove for visualization
 
 Install DepthAI: 
-
 ```bash
 sudo wget -qO- https://docs.luxonis.com/install_dependencies.sh | bash && \
 python3 -m pip install depthai
