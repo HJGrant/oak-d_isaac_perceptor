@@ -42,8 +42,10 @@ Inside the container, set the ISAAC_ROS_WS variable and build the workspace:
 
 ```bash
 export ISAAC_ROS_WS=/workspaces/oakd_isaac_ros/ && \
-colcon build --symlink-install
+colcon build --merge-install
 ```
+
+Note: the option `--merge-install` is important for the deployment step. 
 
 ## Step 5
 After the build has completed, source the ROS2 environment with ` source install/setup.bash` and run the following command to run nvBlox with the OAK-D PoE:
