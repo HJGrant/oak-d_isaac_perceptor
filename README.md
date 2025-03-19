@@ -34,7 +34,7 @@ git clone --recurse-submodules https://github.com/HJGrant/oakd_isaac_ros.git
 Run the following script to build and launch the Docker container:
 
 ```bash
-~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/run_dev.sh
+~/workspaces/oakd_isaac_ros/src/isaac_ros_common/scripts/run_dev.sh --isaac_ros_dev_dir ~/workspaces/oakd_isaac_ros/
 ```
 
 ## Step 4
