@@ -282,7 +282,7 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
     pacakge_prefix = get_package_share_directory("my_oakd_launch")
 
-    print("### OVERRIDDEN CAMERA DRIVER CONFIG: "+ os.path.join(pacakge_prefix, "config", "oak_d", "rgbd.yaml"))
+    print("### OVERRIDDEN CAMERA DRIVER CONFIG: "+ os.path.join(pacakge_prefix, "config", "oak_d", "oakd_rgbd.yaml"))
 
     declared_arguments = [
         DeclareLaunchArgument("name", default_value="oak"),
@@ -297,7 +297,7 @@ def generate_launch_description():
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
             "params_file",
-            default_value=os.path.join(pacakge_prefix, "config", "oak_d", "rgbd.yaml"),
+            default_value=os.path.join(pacakge_prefix, "config", "oak_d", "oakd_rgbd.yaml"),
         ),
         DeclareLaunchArgument("use_rviz", default_value="false"),
         DeclareLaunchArgument("rsp_use_composition", default_value="true"),

@@ -85,7 +85,7 @@ def generate_launch_description_oakd_rgbd():
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
             "params_file",
-            default_value=os.path.join(package_prefix, "config", "oakd_rgbd.yaml"),
+            default_value=os.path.join(package_prefix, "config", "oak_d", "oakd_rgbd.yaml"),
         ),
         DeclareLaunchArgument("use_rviz", default_value="False"),
         DeclareLaunchArgument("rectify_rgb", default_value="False"),
