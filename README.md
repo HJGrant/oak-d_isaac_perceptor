@@ -2,7 +2,7 @@
 
 This is a package for interfacing the OAK-D PoE with the NVIDIA Isaac ROS packages. 
 
-# Requirements
+## Requirements
  - For x86_64: Ubuntu 22.04+ and CUDA 12.6+ 
  - For Jetson: Jetpack 6.1 or 6.2
  - ROS2 Humble
