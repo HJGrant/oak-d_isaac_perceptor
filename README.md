@@ -48,9 +48,10 @@ colcon build --merge-install
 Note: the option `--merge-install` is important for the deployment step. 
 
 ## Step 5
-After the build has completed, source the ROS2 environment with ` source install/setup.bash` and run the following command to run nvBlox with the OAK-D PoE:
+After the build has completed, source the ROS2 environment and run the launch file to run nvBlox with the OAK-D PoE:
 
 ```bash
+source install/setup.bash && \
 ros2 launch oakd_isaac_ros nvblox_dynamics.launch.py
 ```
 
