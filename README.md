@@ -41,7 +41,7 @@ Run the following script to build and launch the Docker container:
 Inside the container, set the ISAAC_ROS_WS variable and build the workspace:
 
 ```bash
-export ISAAC_ROS_WS=/workspaces/oakd_isaac_ros/ && \
+export ISAAC_ROS_WS=/workspaces/isaac_ros-dev/ && \
 colcon build --merge-install
 ```
 
