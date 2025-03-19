@@ -28,7 +28,7 @@ def generate_launch_description() -> LaunchDescription:
 
     actions.append(
         lu.include(
-            'isaac_ros_perceptor_bringup',
+            'oakd_isaac_ros',
             'launch/tools/foxglove_bridge.launch.py',
             launch_arguments={'use_foxglove_whitelist': args.use_foxglove_whitelist},
             condition=IfCondition(args.run_foxglove)))

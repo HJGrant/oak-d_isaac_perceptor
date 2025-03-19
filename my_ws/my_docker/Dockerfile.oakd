@@ -15,6 +15,4 @@ RUN apt install -y ros-humble-depthai-ros
 
 RUN apt-get upgrade
 
-RUN colcon build --packages-select my_oakd_launch
-
 RUN source install/setup.bash

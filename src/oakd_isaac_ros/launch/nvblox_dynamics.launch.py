@@ -31,7 +31,7 @@ COMMON_CONFIG = 'common_config'
 def convert_bgr_to_rgb():
     return LaunchDescription([
         Node(
-            package='my_oakd_launch',           # Name of your package
+            package='oakd_isaac_ros',           # Name of your package
             executable='image_converter',       # The name of your node
             name='image_converter_node',        # The name of the node
             output='screen',                    # Output to the screen
@@ -44,7 +44,7 @@ def convert_bgr_to_rgb():
 
 def launch_setup_oakd_rgbd(context, *args, **kwargs):
     params_file = LaunchConfiguration("params_file")
-    package_prefix = get_package_share_directory("my_oakd_launch")
+    package_prefix = get_package_share_directory("oakd_isaac_ros")
     print("### OAK-D LAUNCH FILE: " + str(os.path.join(package_prefix, "launch", "tools", "camera.launch.py")) + " ###")
 
     name = LaunchConfiguration("name").perform(context)
@@ -71,7 +71,7 @@ def launch_setup_oakd_rgbd(context, *args, **kwargs):
     ]
 
 def generate_launch_description_oakd_rgbd():
-    package_prefix = get_package_share_directory("my_oakd_launch")
+    package_prefix = get_package_share_directory("oakd_isaac_ros")
     print("### OAK-D PARAM FILE: " + str(os.path.join(package_prefix, "config", "oak_d", "oakd_rgbd.yaml")) + " ###")
     declared_arguments = [
         DeclareLaunchArgument("name", default_value="oak"),
@@ -85,7 +85,7 @@ def generate_launch_description_oakd_rgbd():
         DeclareLaunchArgument("cam_yaw", default_value="0.0"),
         DeclareLaunchArgument(
             "params_file",
-            default_value=os.path.join(package_prefix, "config", "oakd_rgbd.yaml"),
+            default_value=os.path.join(package_prefix, "config", "oak_d", "oakd_rgbd.yaml"),
         ),
         DeclareLaunchArgument("use_rviz", default_value="False"),
         DeclareLaunchArgument("rectify_rgb", default_value="False"),
@@ -114,7 +114,7 @@ def get_nvblox_params(num_cameras: int, nvblox_config: dict, common_config: dict
     for config_file in nvblox_config.get('config_files', []):
         assert 'path' in config_file, 'No `path` provided in config_files'
         print("### NVBLOX MAIN CONFIG FILE: " + str(config_file) + " ###" )
-        parameters.append(lu.get_path(config_file.get('package', 'my_oakd_launch'),
+        parameters.append(lu.get_path(config_file.get('package', 'oakd_isaac_ros'),
                                       config_file.get('path')))
     parameters.extend(nvblox_config.get('parameters', []))
     parameters.append({'num_cameras': num_cameras})
@@ -129,10 +129,10 @@ def get_nvblox_params(num_cameras: int, nvblox_config: dict, common_config: dict
         parameters.append({'global_frame': common_config.get('odom_frame')})
 
     parameters.append(
-        lu.get_path('my_oakd_launch',
+        lu.get_path('oakd_isaac_ros',
                     'config/nvblox/specializations/nvblox_dynamics.yaml'))
 
-    print("### APPENDED NVBLOX PARAMS: " + str(lu.get_path('my_oakd_launch', 'config/nvblox/specializations/nvblox_dynamics.yaml')) + " ###")
+    print("### APPENDED NVBLOX PARAMS: " + str(lu.get_path('oakd_isaac_ros', 'config/nvblox/specializations/nvblox_dynamics.yaml')) + " ###")
 
     return parameters
 
@@ -199,7 +199,7 @@ def generate_static_transforms():
     ])
 
 def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]:
-    config_file = lu.get_path('my_oakd_launch', args.config_file)
+    config_file = lu.get_path('oakd_isaac_ros', args.config_file)
     print("### LAUNCH FILE CONFIG :" + str(config_file))
     with open(config_file, "r", encoding="utf-8") as file:
         config = yaml.safe_load(file)
@@ -212,7 +212,7 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
 
     actions.append(
         lu.include(
-            'my_oakd_launch',
+            'oakd_isaac_ros',
             'launch/tools/visualization.launch.py',
             launch_arguments={'use_foxglove_whitelist': args.use_foxglove_whitelist},
         ))
@@ -226,7 +226,7 @@ def generate_launch_description_impl(args: lu.ArgumentContainer) -> List[Action]
     return actions
 
 def generate_launch_description() -> LaunchDescription:
-    package_name = 'my_oakd_launch'  # Change this to match your package name
+    package_name = 'oakd_isaac_ros'  # Change this to match your package name
 
     # Get the path to the config file inside the package's "config" directory
     default_config_path = os.path.join(

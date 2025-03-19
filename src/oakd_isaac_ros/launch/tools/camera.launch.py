@@ -280,7 +280,7 @@ def launch_setup(context, *args, **kwargs):
 
 
 def generate_launch_description():
-    pacakge_prefix = get_package_share_directory("my_oakd_launch")
+    pacakge_prefix = get_package_share_directory("oakd_isaac_ros")
 
     print("### OVERRIDDEN CAMERA DRIVER CONFIG: "+ os.path.join(pacakge_prefix, "config", "oak_d", "rgbd.yaml"))
 

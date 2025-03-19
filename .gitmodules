@@ -1,9 +1,6 @@
 [submodule "src/isaac_ros_common"]
 	path = src/isaac_ros_common
 	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_common.git
-[submodule "src/isaac_perceptor"]
-	path = src/isaac_perceptor
-	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_perceptor.git
 [submodule "src/isaac_ros_nvblox"]
 	path = src/isaac_ros_nvblox
 	url = https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_nvblox.git

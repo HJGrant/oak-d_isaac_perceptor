@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 import os
 from glob import glob
 
-package_name = 'my_oakd_launch'
+package_name = 'oakd_isaac_ros'
 
 data_files=[
         ('share/ament_index/resource_index/packages',
@@ -46,12 +46,12 @@ setup(
     zip_safe=True,
     maintainer='itr',
     maintainer_email='hamish.grant@tum.de',
-    description='Launch OAK-D with Isaac Perceptor',
+    description='Run Isaac ROS with OAK-D PoE',
     license='Apache License 2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "image_converter = my_oakd_launch.image_converter:main",  # Reference src/image_converter.py
+            "image_converter = oakd_isaac_ros.image_converter:main",  # Reference src/image_converter.py
         ],
     },
 )
