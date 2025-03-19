@@ -45,7 +45,7 @@ export ISAAC_ROS_WS=/workspaces/oakd_isaac_ros/ && \
 colcon build --merge-install
 ```
 
-Note: the option `--merge-install` is important for the deployment step. 
+Note: the option `--merge-install` is important for deployment. 
 
 ## Step 5
 After the build has completed, source the ROS2 environment and run the launch file to run nvBlox with the OAK-D PoE:
