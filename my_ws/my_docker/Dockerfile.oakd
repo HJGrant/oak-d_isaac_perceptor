@@ -13,6 +13,4 @@ RUN wget -qO- https://docs.luxonis.com/install_dependencies.sh | bash
 RUN python3 -m pip install depthai
 RUN apt install -y ros-humble-depthai-ros
 
-RUN apt-get upgrade
-
-RUN source install/setup.bash
+RUN apt-get upgrade -y
