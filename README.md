@@ -2,10 +2,9 @@
 
 This is a package for interfacing the OAK-D PoE with the NVIDIA Isaac ROS packages. 
 
-# Requirements
+## Requirements
  - For x86_64: Ubuntu 22.04+ and CUDA 12.6+ 
  - For Jetson: Jetpack 6.1 or 6.2
- - ROS2 Humble
  - DepthAI
  - Foxglove for visualization
 
@@ -41,16 +40,17 @@ Run the following script to build and launch the Docker container:
 Inside the container, set the ISAAC_ROS_WS variable and build the workspace:
 
 ```bash
-export ISAAC_ROS_WS=/workspaces/isaac_ros-dev/ && \
+export ISAAC_ROS_WS=/workspaces/oakd_isaac_ros/ && \
 colcon build --merge-install
 ```
 
-Note: the option `--merge-install` is important for the deployment step. 
+Note: the option `--merge-install` is important for deployment. 
 
 ## Step 5
-After the build has completed, source the ROS2 environment with ` source install/setup.bash` and run the following command to run nvBlox with the OAK-D PoE:
+After the build has completed, source the ROS2 environment and run the launch file to run nvBlox with the OAK-D PoE:
 
 ```bash
+source install/setup.bash && \
 ros2 launch oakd_isaac_ros nvblox_dynamics.launch.py
 ```
 
