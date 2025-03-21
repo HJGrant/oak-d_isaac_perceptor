@@ -30,6 +30,12 @@ git clone --recurse-submodules https://github.com/HJGrant/oakd_isaac_ros.git
 ```
 
 ## Step 3
+Install Git LFS to pull large files
+```bash
+sudo apt-get install git-lfs && \
+git lfs install --skip-repo
+```
+
 Run the following script to build and launch the Docker container:
 
 ```bash
