@@ -1,0 +1,38 @@
+nvblox_config:
+  container_name: 'nvblox_container'
+  node_name: 'nvblox_node'
+  remappings:
+    - depth:
+        image: '/oak/stereo/image_raw'
+        info: '/oak/stereo/camera_info'
+      color:
+        image: '/oak/rgb/image_raw_rgb8'
+        info: '/oak/rgb/camera_info'
+      mask:
+        image: '/camera0/segmentation/people_mask'
+        info: '/oak/rgb/camera_info'
+  config_files:
+    - package: 'oakd_isaac_ros'
+      path: 'config/nvblox/nvblox_base.yaml'
+  parameters:
+    - use_lidar: false
+    - input_qos: "SENSOR_DATA"
+    - map_clearing_frame_id: "camera_link"
+    - use_color: true
+    - max_back_projection_distance: 7.0
+    - static_mapper:
+        esdf_slice_height: 0.0
+        esdf_slice_min_height: 0.09
+        esdf_slice_max_height: 0.65
+    - dynamic_mapper:
+        esdf_slice_height: 0.0
+        esdf_slice_min_height: 0.09
+        esdf_slice_max_height: 0.65
+
+common_config:
+  map_frame: 'map'
+  odom_frame: 'odom'
+  robot_frame: 'oak-d-base-frame'
+
+extra_topics:
+  - '/tf_static'
