@@ -28,6 +28,11 @@ Clone the repo and it's submodules (DepthAI ROS Driver, Isaac ROS Packages, ...)
 mkdir -p ~/workspaces/ && cd ~/workspaces/ && \
 git clone --recurse-submodules https://github.com/HJGrant/oakd_isaac_ros.git
 ```
+Copy the .isaac_ros_common-config file into your home directory:
+```bash
+cd ~/workspaces/oakd_isaac_ros && \
+cp .isaac_ros_common-config $HOME
+```
 
 ## Step 3
 Install Git LFS to pull large files
