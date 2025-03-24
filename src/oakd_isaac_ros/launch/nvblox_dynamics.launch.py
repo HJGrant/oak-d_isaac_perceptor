@@ -17,7 +17,7 @@ from launch import LaunchDescription, launch_description_sources
 from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
-    OpaqueFunction,
+    OpaqueFunction
 )
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition, LaunchConfigurationEquals, LaunchConfigurationNotEquals
@@ -245,6 +245,8 @@ def generate_launch_description() -> LaunchDescription:
                  description='Path to the config file', cli=True)
 
     args.add_arg('voxel_size', 0.05, description='Set nvBlox Voxel Size', cli=True)
+
+    args.add_arg('ros_domain_id', 8, description='Set the ROS 2 Domain ID', cli=True)
 
     args.add_arg('use_foxglove_whitelist', False, cli=True)
 

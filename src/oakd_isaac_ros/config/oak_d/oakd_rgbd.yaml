@@ -32,7 +32,7 @@
       i_isp_num: 2
     stereo:
       i_publish_topic: true
-      i_low_bandwidth: true
+      i_low_bandwidth: false
       i_align_depth: true
       i_lr_check: true
-      i_subpixel: false
+      i_subpixel: true
