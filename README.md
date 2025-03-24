@@ -88,7 +88,7 @@ docker run --rm -it --gpus all --network host my_username/nvblox_dynamics_oakd
 ```
 To run the deployment docker on Jetson use the following command: 
 ```bash
-docker run --rm -it --runtime=nvidia --network host hjgrant99/nvblox_dynamics_oakd_jetson_aarch64 
+docker run --rm -it --runtime=nvidia --network host my_username/nvblox_dynamics_oakd_jetson_aarch64 
 ```
 
 ## Pulling a pre-built Deployment Docker
